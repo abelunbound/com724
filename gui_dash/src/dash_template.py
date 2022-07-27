@@ -1,4 +1,7 @@
 ### Requirement
+### Tutorial
+# https://medium.com/analytics-vidhya/python-dash-data-visualization-dashboard-template-6a5bff3c2b76
+# https://medium.com/codex/how-to-create-a-dashboard-with-a-contact-form-using-python-and-dash-ee3aacffd349
 # pip install dash
 # pip install jupyter-dash
 # pip install dash-bootstrap-components<1
@@ -49,20 +52,20 @@ CARD_TEXT_STYLE = {
 
 controls = dbc.FormGroup(
     [
-        html.P('Dropdown', style={
+        html.P('Select Cryptocurrency', style={
             'textAlign': 'center'
         }),
         dcc.Dropdown(
             id='dropdown',
             options=[{
-                'label': 'Value One',
+                'label': 'Bitcoin',
                 'value': 'value1'
             }, {
-                'label': 'Value Two',
+                'label': 'Ethereum',
                 'value': 'value2'
             },
                 {
-                    'label': 'Value Three',
+                    'label': 'DOGE Coin',
                     'value': 'value3'
                 }
             ],
@@ -108,15 +111,15 @@ controls = dbc.FormGroup(
         dbc.Card([dbc.RadioItems(
             id='radio_items',
             options=[{
-                'label': 'Value One',
+                'label': '24 Hours',
                 'value': 'value1'
             },
                 {
-                    'label': 'Value Two',
+                    'label': '7 Days',
                     'value': 'value2'
                 },
                 {
-                    'label': 'Value Three',
+                    'label': '30 Days',
                     'value': 'value3'
                 }
             ],
@@ -168,6 +171,21 @@ content_first_row = dbc.Row([
                 dbc.CardBody(
                     [
                         html.H4('Card Title 2', className='card-title', style=CARD_TEXT_STYLE),
+                        html.P('Sample text.', style=CARD_TEXT_STYLE),
+                    ]
+                ),
+            ]
+
+        ),
+        md=3
+    ),
+    dbc.Col(
+        dbc.Card(
+            [
+
+                dbc.CardBody(
+                    [
+                        html.H4('new test', className='card-title', style=CARD_TEXT_STYLE),
                         html.P('Sample text.', style=CARD_TEXT_STYLE),
                     ]
                 ),
