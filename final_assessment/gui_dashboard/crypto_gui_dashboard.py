@@ -1,19 +1,6 @@
-### Requirement
-### Tutorial
-# https://medium.com/analytics-vidhya/python-dash-data-visualization-dashboard-template-6a5bff3c2b76
-# https://medium.com/codex/how-to-create-a-dashboard-with-a-contact-form-using-python-and-dash-ee3aacffd349
-# pip install dash
-# pip install jupyter-dash
-# pip install dash-bootstrap-components<1
-# pip install dash-bootstrap-components
+# GUI for SOLigence
 
-# import dash
-# import dash_bootstrap_components as dbc
-# import dash_core_components as dcc
-# import dash_html_components as html
 from dash.dependencies import Input, Output, State
-#
-# import plotly.express as px
 from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
 import plotly.express as px

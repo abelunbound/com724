@@ -12,16 +12,8 @@ from matplotlib import pyplot
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-import requests
-from bs4 import BeautifulSoup as bs
-import io
-from datetime import datetime, timedelta
-import re
 import statsmodels.tsa.api as smt
 import statsmodels.api as sm
-import scipy.stats as scs
-import warnings
-warnings.filterwarnings('ignore')
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
@@ -29,6 +21,15 @@ from sklearn.ensemble import GradientBoostingRegressor
 from math import sqrt
 from sklearn.metrics import make_scorer
 from sklearn.model_selection import cross_val_score
+import requests
+from bs4 import BeautifulSoup as bs
+import io
+import scipy.stats as scs
+import warnings
+warnings.filterwarnings('ignore')
+
+from datetime import datetime, timedelta
+import re
 
 ### GET DATA ##################################################################
 header = {
