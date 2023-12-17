@@ -5,7 +5,61 @@ from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
+#
+## Data collection and visualisation
 
+import yfinance as yf
+import pandas as pd
+from pandas import  read_csv
+from pandas import set_option
+from matplotlib import pyplot as plt
+# %matplotlib inline
+import matplotlib.dates as mpl_dates
+from datetime import date, timedelta
+
+import plotly.offline as py
+import plotly.graph_objects as go
+import plotly.express as px
+from plotly.subplots import make_subplots
+
+plt.style.use('seaborn-darkgrid')
+
+
+#### Data Collection libraries end here
+
+#### Data Engineering
+
+today = date.today()
+d1 = today.strftime("%Y-%m-%d")
+end_date = d1
+
+df = pd.DataFrame()
+
+crypto_ticker = ['BTC']
+
+#Extract data for each of the 10 coins from YahooFinance! using a For loop.
+for each_crypto_ticker in crypto_ticker:
+
+    each_crypto_ticker_index = crypto_ticker.index(each_crypto_ticker)
+    crypto_data = yf.Ticker(f"{each_crypto_ticker}-USD").history(start='2015-01-01', end=end_date, interval='1d')
+    crypto_dataframe = pd.DataFrame(crypto_data)
+    crypto_dataframe['crypto_ticker'] = each_crypto_ticker
+    df = pd.concat([df, crypto_dataframe])
+
+
+set_option('display.width', 500)
+df = df.rename_axis('cryptodate').reset_index()
+
+# ###Convert data to CSV and store it
+df.to_csv("soligencecryptodata_withdate.csv")
+
+###Extract data to different dataframes to simplify data understanding for each cryptocurrency
+BTC = df.loc[df['crypto_ticker'] == 'BTC']
+
+
+
+
+### GUI Starts here
 app = Dash(__name__)
 
 
@@ -135,6 +189,7 @@ sidebar = html.Div(
     style=SIDEBAR_STYLE,
 )
 
+
 content_first_row = dbc.Row([
     dbc.Col(
         dbc.Card(
@@ -196,11 +251,31 @@ content_first_row = dbc.Row([
     )
 ])
 
-df = pd.read_csv('https://gist.githubusercontent.com/chriddyp/5d1ea79569ed194d432e56108a04d188/raw/a9f9e8076b837d541398e999dcbac2b2826a81f8/gdp-life-exp-2007.csv')
+# df = pd.read_csv('https://gist.githubusercontent.com/chriddyp/5d1ea79569ed194d432e56108a04d188/raw/a9f9e8076b837d541398e999dcbac2b2826a81f8/gdp-life-exp-2007.csv')
 
-fig = px.scatter(df, x="gdp per capita", y="life expectancy",
-                 size="population", color="continent", hover_name="country",
-                 log_x=True, size_max=60)
+# fig = px.scatter(df, x="gdp per capita", y="life expectancy",
+#                  size="population", color="continent", hover_name="country",
+#                  log_x=True, size_max=60)
+
+
+
+layout = go.Layout(paper_bgcolor='rgba(223,201,230,0)', plot_bgcolor='rgba(0,0,0,0)')
+fig = go.Figure(data=[go.Candlestick(x=df["cryptodate"],open=df["Open"], high=df["High"], low=df["Low"], close=df["Close"])])
+fig.update_layout(title = "Bitcoin Price Analysis", xaxis_rangeslider_visible=True)
+# fig.show()
+# fig = px.area(df, x="cryptodate", y="Close")
+
+fig.update_xaxes(
+    rangeselector=dict(
+        buttons=list([
+            dict(count=1, label="1m", step="month", stepmode="backward"),
+            dict(count=6, label="6m", step="month", stepmode="backward"),
+            dict(count=3, label="3m", step="month", stepmode="backward"),
+            dict(count=1, label="1y", step="year", stepmode="backward"),
+            dict(step="all")
+        ])
+    )
+)
 
 content_second_row = dbc.Row(
     [
