@@ -1,5 +1,18 @@
 steps:
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['app', 'deploy']
+# Step 1: Clone the repository
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone', 'https://github.com/abelunbound/com724', 'my-cloned-repo']
 
-timeout: '1600s'
+# Step 2: Change to the subdirectory and install dependencies
+- name: 'python'
+  dir: 'my-cloned-repo/gui_dash_backup'
+  entrypoint: 'pip'
+  args: ['install', '-r', 'requirements.txt']
+
+# Step 3: Deploy the application
+- name: 'gcr.io/cloud-builders/gcloud'
+  dir: 'my-cloned-repo/gui_dash_backup'
+  args: ['app', 'deploy', '--quiet']
+
+# Optionally, specify a timeout for the build
+timeout: '1200s'
